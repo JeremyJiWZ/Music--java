@@ -1,19 +1,14 @@
-import java.applet.Applet;
-import java.applet.AudioClip;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.io.File;
-import java.io.FileInputStream;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.Hashtable;
 import java.util.LinkedList;
 import java.util.List;
 
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
@@ -28,6 +23,7 @@ class GamePanel extends JPanel
 	private int timePerfectWidth = 5; 
 	private int bottomHeight = 30;
 	private int time = 0;
+	private int start;
 	private int end = 0;
 	private int blockWidth = 20;
 	private int blockWidthHalf = blockWidth/2;
@@ -35,7 +31,7 @@ class GamePanel extends JPanel
 	private int blockHeightHalf = blockHeight/2;
 	private int score;
 	List<List<Integer>> track;
-	List<List<Boolean>> scored;
+	List<List<Integer>> scored;
 	Hashtable key;
 	private Timer timer;
 	
@@ -53,9 +49,11 @@ class GamePanel extends JPanel
 	
 	private void construct()
 	{
-		image = new Image[4];
-		for (int i=0; i<4; i++)
+		image = new Image[num+2];
+		for (int i=0; i<num; i++)
 			image[i] = this.getToolkit().createImage(i+".jpg");
+		image[num] = this.getToolkit().createImage("hit.jpg");
+		image[num+1] = this.getToolkit().createImage("perfect.jpg");
 		
 		addKeyListener(new MyKeyListener());
 		
@@ -75,7 +73,7 @@ class GamePanel extends JPanel
 		score = 0;
 		for (int i=0; i<num; i++)
 			for (int j=0; j<scored.get(i).size(); j++)
-				scored.get(i).set(j, false);
+				scored.get(i).set(j, 0);
 	}
 	
 	public void resetEnd()
@@ -86,11 +84,11 @@ class GamePanel extends JPanel
 	public void setNum(int num)
 	{
 		track = new LinkedList<List<Integer>>();
-		scored = new LinkedList<List<Boolean>>();
+		scored = new LinkedList<List<Integer>>();
 		for (int i = 0; i<num; i++)
 		{
 			track.add(new LinkedList<Integer>());
-			scored.add(new LinkedList<Boolean>());
+			scored.add(new LinkedList<Integer>());
 		}
 	}
 	
@@ -123,12 +121,18 @@ class GamePanel extends JPanel
 	{
 		track.get(num).add(time);
 		if (time > end) end = time;
-		scored.get(num).add(false);
+		scored.get(num).add(0);
+	}
+	
+	public int getStartTime()
+	{
+		return start;
 	}
 	
 	public void play()
 	{
 		restart();
+		start = (int) System.currentTimeMillis();
 		timer = new Timer(timerFre, new TimerListener());
 		timer.start();
 //		System.out.println("start()");
@@ -160,7 +164,7 @@ class GamePanel extends JPanel
 		
 		int width = getWidth();
 		int realHeight = getHeight(); 
-		int height = realHeight-bottomHeight;
+		int height = realHeight/4*3;
 		int widthLength = width/(num+1);
 		
 		int x0, y0;
@@ -172,10 +176,15 @@ class GamePanel extends JPanel
 			for (int j=0; j<track.get(i).size(); j++)
 			{
 				note = track.get(i).get(j);
-				if (!(note <= time && time <= note + timeFall))
+				if (!(note <= time && time <= note + timeFall + 1000))
 					continue;
 				y0 = (int)(-blockHeightHalf+(0.0+time-note)/timeFall*height);
-				g.drawImage(image[i], x0, y0, blockWidth, blockHeight, this);
+				if (scored.get(i).get(j)==2)
+					g.drawImage(image[num+1], x0, y0, blockWidth, blockHeight, this);
+				if (scored.get(i).get(j)==1)
+					g.drawImage(image[num], x0, y0, blockWidth, blockHeight, this);
+				if (scored.get(i).get(j)==0)
+					g.drawImage(image[i], x0, y0, blockWidth, blockHeight, this);//draw another image by judging scored
 			}
 		}
 		
@@ -184,7 +193,8 @@ class GamePanel extends JPanel
 			g.drawLine(0, height-blockHeightHalf, width, height-blockHeightHalf);
 			g.drawLine(0, height+blockHeightHalf, width, height+blockHeightHalf);
 		}
-		g.drawString(""+score, 0, realHeight);
+		g.drawString("score:"+score, 0, realHeight);
+		g.drawString("time:"+(end-time+timeFall+1000)/1000, 100, realHeight);
 	}
 
 	class TimerListener implements ActionListener
@@ -193,10 +203,18 @@ class GamePanel extends JPanel
 		public void actionPerformed(ActionEvent e)
 		{
 //			System.out.println("time="+time);
-			time += timerFre;
+			time = (int) (System.currentTimeMillis()-start);
+//			int x = (int) (System.currentTimeMillis()/1000);
+//			System.out.println(""+x);
 			repaint();
 			if (time > end + timeFall + 1000)
+			{
 				timer.stop();
+				JOptionPane.showMessageDialog(getParent(),
+						"恭喜你！\n共获得了"+score+"分" ,
+						"得分", 
+						JOptionPane.INFORMATION_MESSAGE);
+			}
 		}
 	}
 	
@@ -219,19 +237,19 @@ class GamePanel extends JPanel
 			for (int i=0; i<track.get(t).size(); i++)
 			{
 //				System.out.println(""+scored.get(t).get(i));
-				if (scored.get(t).get(i)==false &&
+				if (scored.get(t).get(i)==0 &&
 						track.get(t).get(i)+timeFall-timePerfectWidth <= time &&
 						time <= track.get(t).get(i)+timeFall+timePerfectWidth)
 					{
 						score += 2;
-						scored.get(t).set(i, true);
+						scored.get(t).set(i, 2);
 					}
-				if (scored.get(t).get(i)==false &&
+				if (scored.get(t).get(i)==0 &&
 					track.get(t).get(i)+timeFall-timeWidth <= time &&
 					time <= track.get(t).get(i)+timeFall+timeWidth)
 				{
 					score += 1;
-					scored.get(t).set(i, true);
+					scored.get(t).set(i, 1);
 				}
 			}
 		}

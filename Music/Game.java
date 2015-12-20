@@ -17,98 +17,30 @@ public class Game extends JFrame
 	GamePanel gamePanel;
 	public Game()
 	{
-		gamePanel = new GamePanel(4);//¹ìµÀÊý£¬Ä¿Ç°Ö»Ö§³Ö4Ìõ
-		gamePanel.setFre(50);//Ê±ÖÓÆµÂÊ
-		gamePanel.setFallTime(4000);//·½¿éÏÂÂäÊ±¼ä
-		gamePanel.setTimeWidth(100);//°´ÖÐµÄ¼ä¸ô
-		gamePanel.setTimePerfectWidth(50);//¸ß¼¶°´ÖÐµÄ¼ä¸ô
+		gamePanel = new GamePanel(4);//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¿Ç°Ö»Ö§ï¿½ï¿½4ï¿½ï¿½
+		gamePanel.setFre(5);//Ê±ï¿½ï¿½Æµï¿½ï¿½
+		gamePanel.setFallTime(3000);//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½
+		gamePanel.setTimeWidth(100);//ï¿½ï¿½ï¿½ÐµÄ¼ï¿½ï¿½
+		gamePanel.setTimePerfectWidth(50);//ï¿½ß¼ï¿½ï¿½ï¿½ï¿½ÐµÄ¼ï¿½ï¿½
 		gamePanel.setBottom(30);
 		gamePanel.setFocusable(true);
 		add(gamePanel);
 		
-		JMenuBar menubar = new JMenuBar();
-		JMenu menu1 = new JMenu("Start");
-		JMenuItem open = new JMenuItem("Open");
-		open.addActionListener(new OpenActionListener());
-		menu1.add(open);
-		JMenuItem play = new JMenuItem("Play");
-		play.addActionListener(new PlayActionListener());
-		menu1.add(play);
-		menubar.add(menu1);
+		ButtonManager buttonManager = new ButtonManager(gamePanel);
 		Container content = getContentPane();
-		content.add(menubar, BorderLayout.NORTH);
+		content.add(buttonManager,BorderLayout.NORTH);
 
-//		JButton play = new JButton("Play");
-//		play.addActionListener(new PlayActionListener());
 	}
 
 	public static void main(String[] args)
 	{
 		Game frame = new Game();
-		
 		frame.setTitle("AnimationDemo");
-		frame.setSize(300, 400);
+		frame.setSize(600, 800);
 		frame.setLocationRelativeTo(null);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		frame.setVisible(true);
-	}
-	
-	class OpenActionListener implements ActionListener
-	{
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			JFileChooser fileChooser = new JFileChooser();
-			if (fileChooser.showOpenDialog(null)
-				== JFileChooser.APPROVE_OPTION)
-			{
-				java.io.File file = fileChooser.getSelectedFile();
-				Scanner input = null;
-				try
-				{
-					input = new Scanner(file);
-				} catch (FileNotFoundException e1)
-				{
-					System.out.println("Can't open file");
-				}
-				int num=0, ni;
-				gamePanel.resetEnd();
-				gamePanel.stop();
-				while (input.hasNext())
-				{
-					ni = input.nextInt();
-					if (ni==-1)
-					{
-						num++; continue;
-					}
-					gamePanel.addNode(num, ni);
-				}
-				input.close();
-			}
-			else
-				System.out.println("No file selected");
-			
-		}
-	}
-	
-	class PlayActionListener implements ActionListener
-	{
-		@Override
-		public void actionPerformed(ActionEvent e)
-		{
-			File file1 = new File("1.wav");
-			AudioClip sound1 = null;
-			try
-			{
-				sound1 = Applet.newAudioClip(file1.toURL());
-			} catch (MalformedURLException ex)
-			{
-				ex.printStackTrace();
-			}
-			sound1.play();
-			
-			gamePanel.play();
-		}
 	}
 }
 
