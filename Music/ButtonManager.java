@@ -142,6 +142,7 @@ public class ButtonManager extends JPanel {
 		input.close();
 	}
 
+    //no use
 	void delay() {
 		// delay 3s
 		Timer timer = new Timer();// 实例化Timer类
