@@ -8,12 +8,13 @@ import java.util.Hashtable;
 import java.util.LinkedList;
 import java.util.List;
 
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
-class GamePanel extends JPanel
-{
+class GamePanel extends JLabel{
 	Image[] image;
 	private String message = "Welcome to Java";
 	private int num = 4;
@@ -156,11 +157,13 @@ class GamePanel extends JPanel
 		time = 0;
 	}
 	
+	ImageIcon img = new ImageIcon("bg.jpg");
 	@Override
 	protected void paintComponent(Graphics g)
 	{
 //		System.out.println("paintComponent");
 		super.paintComponent(g);
+		g.drawImage(img.getImage(), 0,0, null);
 		
 		int width = getWidth();
 		int realHeight = getHeight(); 

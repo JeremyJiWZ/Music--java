@@ -1,16 +1,10 @@
-import java.applet.Applet;
-import java.applet.AudioClip;
-import java.awt.*;
-import java.awt.event.*;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.net.MalformedURLException;
-import java.util.Hashtable;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Scanner;
+import java.awt.BorderLayout;
+import java.awt.Container;
 
-import javax.swing.*;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
 
 public class Game extends JFrame
 {
@@ -25,6 +19,13 @@ public class Game extends JFrame
 		gamePanel.setBottom(30);
 		gamePanel.setFocusable(true);
 		add(gamePanel);
+		
+//		JLabel jl = new JLabel();
+//		Icon icon = new ImageIcon("bg.jpg");
+//		jl.setIcon(icon);
+//		jl.add(gamePanel);
+//		jl.setLayout(null);
+//		add(jl);
 		
 		ButtonManager buttonManager = new ButtonManager(gamePanel);
 		Container content = getContentPane();
