@@ -68,8 +68,9 @@ public class ButtonManager extends JPanel {
 			// TODO Auto-generated method stub
 			// open rhythm data
 			openFile("yede.dat");
-			// begin to draw
+  			// begin to draw
 			gamePanel.play();
+//			delay();
 			// music
 			play("yede.mid");
 		}
@@ -83,7 +84,7 @@ public class ButtonManager extends JPanel {
 			openFile("canonInD.dat");
 			// begin to draw
 			gamePanel.play();
-			delay();
+			//delay
 //			delay();
 			// play music
 			play("canonInD.mid");
@@ -96,6 +97,7 @@ public class ButtonManager extends JPanel {
 			// TODO Auto-generated method stub
 			openFile("wangle.dat");
 			gamePanel.play();
+//			delay();
 			play("wangle.mid");
 		}
 	}
@@ -106,6 +108,7 @@ public class ButtonManager extends JPanel {
 			// TODO Auto-generated method stub
 			openFile("xiaoxinxin2.dat");
 			gamePanel.play();
+//			delay();
 			play("xiaoxinxin.mid");
 		}
 	}
@@ -115,6 +118,7 @@ public class ButtonManager extends JPanel {
 			// TODO Auto-generated method stub
 			openFile("yongqi.dat");
 			gamePanel.play();
+//			delay();
 			play("yongqi.mid");
 		}
 	}
@@ -142,7 +146,6 @@ public class ButtonManager extends JPanel {
 		input.close();
 	}
 
-    //no use
 	void delay() {
 		// delay 3s
 		Timer timer = new Timer();// 实例化Timer类
@@ -151,8 +154,9 @@ public class ButtonManager extends JPanel {
 				System.out.println("退出");
 				this.cancel();
 			}
-		}, 1000);// 3秒
+		}, 10000);// 3秒
 	}
+	
 	
 	Sequencer sequencer = null;
 	void play(String file) {
