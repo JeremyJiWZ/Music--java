@@ -14,7 +14,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
-class GamePanel extends JLabel{
+class GamePanel extends JPanel{
 	Image[] image;
 	private String message = "Welcome to Java";
 	private int num = 4;
