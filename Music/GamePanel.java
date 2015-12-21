@@ -1,3 +1,4 @@
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
@@ -25,11 +26,12 @@ class GamePanel extends JPanel {
 	private int time = 0;
 	private int start;
 	private int end = 0;
-	private int blockWidth = 20;
+	private int blockWidth = 40;
 	private int blockWidthHalf = blockWidth / 2;
-	private int blockHeight = 8;
+	private int blockHeight = 16;
 	private int blockHeightHalf = blockHeight / 2;
 	private int score;
+	private int maxScore = 0;
 	List<List<Integer>> track;
 	List<List<Integer>> scored;
 	Hashtable key;
@@ -62,6 +64,7 @@ class GamePanel extends JPanel {
 
 		time = 0;
 		score = 0;
+		maxScore = 0;
 	}
 
 	public void restart() {
@@ -121,6 +124,7 @@ class GamePanel extends JPanel {
 		if (time > end)
 			end = time;
 		scored.get(num).add(0);
+		maxScore += 2;
 	}
 
 	public int getStartTime() {
@@ -193,8 +197,10 @@ class GamePanel extends JPanel {
 			g.drawLine(0, height - blockHeightHalf, width, height - blockHeightHalf);
 			g.drawLine(0, height + blockHeightHalf, width, height + blockHeightHalf);
 		}
-		g.drawString("score:" + score, 0, realHeight);
-		g.drawString("time:" + (end - time + timeFall + 1000) / 1000, 100, realHeight);
+		Font f = new Font("", 0, 18);
+		g.setFont(f);
+		g.drawString("score:" + score + "/" + maxScore, 0, realHeight);
+		g.drawString("time:" + (end - time + timeFall + 1000) / 1000, width-150, realHeight);
 	}
 
 	class TimerListener implements ActionListener {

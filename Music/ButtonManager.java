@@ -1,3 +1,4 @@
+import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -14,6 +15,7 @@ import javax.sound.midi.Sequence;
 import javax.sound.midi.Sequencer;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 public class ButtonManager extends JPanel {
@@ -23,10 +25,11 @@ public class ButtonManager extends JPanel {
 	JButton play3 = new JButton();
 	JButton play4 = new JButton();
 	JButton play5 = new JButton();
+	JButton help = new JButton();
 
 	public ButtonManager(GamePanel p) {
 		// TODO Auto-generated constructor stub
-		// setLayout(null);
+//		setLayout(new BorderLayout());
 		gamePanel = p;
 		play1.setLayout(null);
 		play1.setIcon(new ImageIcon("play.png"));
@@ -38,6 +41,8 @@ public class ButtonManager extends JPanel {
 		play4.setIcon(new ImageIcon("play.png"));
 		play5.setLayout(null);
 		play5.setIcon(new ImageIcon("play.png"));
+		help.setLayout(null);
+		help.setIcon(new ImageIcon("help.png"));
 		play1.setSize(40, 40);
 		play1.setLocation(20, 20);
 		play2.setSize(40, 40);
@@ -48,18 +53,21 @@ public class ButtonManager extends JPanel {
 		play4.setLocation(140, 20);
 		play5.setSize(40, 40);
 		play5.setLocation(180, 20);
+		help.setLocation(getWidth()-40,20);
 
 		add(play1);
 		add(play2);
 		add(play3);
 		add(play4);
 		add(play5);
+		add(help,BorderLayout.EAST);
 
 		play1.addActionListener(new Play1Listener());
 		play2.addActionListener(new Play2Listener());
 		play3.addActionListener(new Play3Listener());
 		play4.addActionListener(new Play4Listener());
 		play5.addActionListener(new Play5Listener());
+		help.addActionListener(new HelpListener());
 	}
 
 	class Play1Listener implements ActionListener {
@@ -68,11 +76,8 @@ public class ButtonManager extends JPanel {
 			// TODO Auto-generated method stub
 			// open rhythm data
 			openFile("yede.dat");
-  			// begin to draw
-			gamePanel.play();
-//			delay();
-			// music
 			play("yede.mid");
+			gamePanel.play();
 		}
 	}
 
@@ -82,12 +87,8 @@ public class ButtonManager extends JPanel {
 			// TODO Auto-generated method stub
 			// open rhythm data
 			openFile("canonInD.dat");
-			// begin to draw
-			gamePanel.play();
-			//delay
-//			delay();
-			// play music
 			play("canonInD.mid");
+			gamePanel.play();
 		}
 	}
 
@@ -96,9 +97,8 @@ public class ButtonManager extends JPanel {
 		public void actionPerformed(ActionEvent e) {
 			// TODO Auto-generated method stub
 			openFile("wangle.dat");
-			gamePanel.play();
-//			delay();
 			play("wangle.mid");
+			gamePanel.play();
 		}
 	}
 
@@ -107,9 +107,8 @@ public class ButtonManager extends JPanel {
 		public void actionPerformed(ActionEvent e) {
 			// TODO Auto-generated method stub
 			openFile("xiaoxinxin2.dat");
-			gamePanel.play();
-//			delay();
 			play("xiaoxinxin.mid");
+			gamePanel.play();
 		}
 	}
 	class Play5Listener implements ActionListener {
@@ -117,9 +116,17 @@ public class ButtonManager extends JPanel {
 		public void actionPerformed(ActionEvent e) {
 			// TODO Auto-generated method stub
 			openFile("yongqi.dat");
-			gamePanel.play();
-//			delay();
 			play("yongqi.mid");
+			gamePanel.play();
+		}
+	}
+	class HelpListener implements ActionListener{
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			// TODO Auto-generated method stub
+			JOptionPane.showMessageDialog(getParent(), "按键：DFJK 分别对应四个音轨\n五个按钮对应五首歌曲\n", "帮助",
+					JOptionPane.INFORMATION_MESSAGE);
+			gamePanel.requestFocus();
 		}
 	}
 

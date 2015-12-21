@@ -13,7 +13,7 @@ public class Game extends JFrame
 	{
 		gamePanel = new GamePanel(4);//�������Ŀǰֻ֧��4��
 		gamePanel.setFre(5);//ʱ��Ƶ��
-		gamePanel.setFallTime(3000);//��������ʱ��
+		gamePanel.setFallTime(2000);//��������ʱ��
 		gamePanel.setTimeWidth(100);//���еļ��
 		gamePanel.setTimePerfectWidth(50);//�߼����еļ��
 		gamePanel.setBottom(30);
@@ -29,7 +29,7 @@ public class Game extends JFrame
 	public static void main(String[] args)
 	{
 		Game frame = new Game();
-		frame.setTitle("AnimationDemo");
+		frame.setTitle("Rhythm Game");
 		frame.setSize(600, 800);
 		frame.setLocationRelativeTo(null);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
